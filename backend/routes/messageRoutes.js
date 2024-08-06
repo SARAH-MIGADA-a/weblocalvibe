@@ -1,24 +1,11 @@
-// routes/messageRoutes.js
 const express = require('express');
-const Message = require('../models/Message');
 const router = express.Router();
+const messageController = require('../controllers/messageController');
 
-router.get('/', async (req, res) => {
-  try {
-    const messages = await Message.findAll();
-    res.json(messages);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const message = await Message.create(req.body);
-    res.status(201).json(message);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.get('/', messageController.getAllMessages);
+router.get('/:id', messageController.getMessageById);
+router.post('/', messageController.createMessage);
+router.put('/:id', messageController.updateMessage);
+router.delete('/:id', messageController.deleteMessage);
 
 module.exports = router;

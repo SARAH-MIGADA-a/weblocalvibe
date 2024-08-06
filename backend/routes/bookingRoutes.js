@@ -1,24 +1,12 @@
-// routes/bookingRoutes.js
 const express = require('express');
-const Booking = require('../models/Booking');
 const router = express.Router();
+const bookingController = require('../controllers/bookingController');
 
-router.get('/', async (req, res) => {
-  try {
-    const bookings = await Booking.findAll();
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.post('/', async (req, res) => {
-  try {
-    const booking = await Booking.create(req.body);
-    res.status(201).json(booking);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// Define routes for bookings
+router.get('/', bookingController.getAllBookings);
+router.get('/:id', bookingController.getBookingById);
+router.post('/', bookingController.createBooking);
+router.put('/:id', bookingController.updateBooking);
+router.delete('/:id', bookingController.deleteBooking);
 
 module.exports = router;
